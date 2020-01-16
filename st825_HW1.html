@@ -1,0 +1,77 @@
+
+<html>
+<head>
+
+<!-- Javascript code -->
+<script type="text/javascript">
+	function get_fib(n) {   <!-- function to calculate fibonacci numbers -->
+		if (n==0) {
+			return 0;
+		}
+		else if (n==1) {
+			return 1;
+		}
+		else {              <!-- if input is not 0 or 1, then it will added to input-1 to input-2 -->
+			return (n-1) + (n-2);
+		}
+	}
+	function table() {      <!-- function to create the table in the empty div -->
+		var fib_output = document.getElementById("output");   <!--the empty div is referenced here so the table will appear there -->
+		fib_output.innerHTML = "" 							  <!-- making sure the empty div is cleared and clears every time the user inputs a new value-->
+		var textbox = document.getElementById("input");       <!-- this is the box that the user types stuff -->
+		var input = textbox.value;							  <!-- references the value that the user types into the text box -->
+		var integer = parseInt(input);                        <!-- converting that value into an integer -->
+		if (isNaN(integer)) {								  <!-- if the user tries to cast a string, it will be invalid -->
+			fib_output.innerHTML = "Invalid Input" 		
+		}
+		else if (integer < 0) {								  <!-- if the user enters a negative number then, the following error will occur -->
+			fib_output.innerHTML = "Cannot compute Fib of a negative number"
+		}
+		else {												
+			var table = document.createElement('table');
+			table.style.width = '50%';						  <!-- table looks cleaner as width between two columns in increased -->
+			table.style.border = "1px solid #000"			  <!-- border around the table -->
+			while (integer >= 0){							  <!-- if the number is non-negative, the get_fib function is called to calculate the answer-->
+				var answer = get_fib(integer);                <!-- variable to reference the calculation -->
+				var row = table.insertRow(0);			      <!-- row is created -->	  
+				var int_cell = row.insertCell(0);			  <!-- two cells are created in that for the user input and the answer -->
+				var ans_cell = row.insertCell(1);
+				int_cell.innerHTML = integer;
+				ans_cell.innerHTML = answer;
+				integer--;									  <!-- the integer is subtracted by 1 each time to complete the table -->
+			}
+			var row = table.insertRow(0);				      <!-- creating a row and two cells for the "n" and "fib(n)" row -->
+			var int_cell = row.insertCell(0);
+			var ans_cell = row.insertCell(1);
+			int_cell.innerHTML = "n";
+			ans_cell.innerHTML = "fib(n)";
+			fib_output.appendChild(table);				      <!-- the table will now show up in the empty div -->
+		}
+	}
+
+</script>
+
+<title>CS-275 Homework 1</title>
+
+</head>
+
+<body>
+<h1><center>Fibonacci Numbers</center></h1>			<!-- title of the HTML page -->
+
+<div>
+<h5>Brief History</h5>			<!-- title for the paragraph -->
+<p>In mathematics, the Fibonnacci sequence is where each number is the sum of the two preceding ones, starting with 0 and 1. The sequence is as follows: 0,1,1,2,3,5,8,13.... and so on. Fibonacci numbers are named after Leonardo of Pisa who was an Italian mathematician and later came to be known as Fibonacci. Fibonacci discovered this sequence based on a problem involving rabbits. The problem, dealing with the regeneration of rabbits, calculated the number of rabbbits after a year if there is only one pair the first month. The problem states that it takes one month for a rabbits pair to mature, and the pair will then produce one pair of rabbits each following. When the total number of rabbits for each month was listed, it generated the Fibonacci sequence of numbers. A closer look at the numbers making up the Fibonacci sequence brings to light all sorts of fascinating patterns and mathematical properties. Several hundred years after Fibonacci's lifetime, the time of the Renaissance emerged, when people began to pay more analytical attention to the natural world surrounding them. As they studied the structures and forms of various plants, animals, and humans, they noticed that Fibonacci number patterns were showing up in measurements throughout creation such as in plants, animals, architecture, art, and music.</p>
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/PascalTriangleFibanacci.svg/360px-PascalTriangleFibanacci.svg.png"> 
+</div>
+
+<div>
+<input type=text id="input">							  <!-- the textbox with an id for the table function -->
+<button type=button onClick="table()">Compute!</button>   <!-- the button that activates the table function -->
+</div>
+
+<div id="output">										  <!-- where the table function is called to appear -->
+
+</div>
+
+</body>
+</html>
