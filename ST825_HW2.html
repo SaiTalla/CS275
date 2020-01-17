@@ -1,0 +1,80 @@
+<html>
+<head>
+<div data-role="header" data-position="fixed"> <!--fixed header -->
+	<h1>Homework 2</h1>
+</div>
+<div data-role="footer" data-position="fixed"> <!--fixed footer -->
+	<h1>CS-275</h1>
+</div>
+<!--Soruces for using jQuery, jQuery Mobile, and Ajax -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> <script src="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"> </script>
+<link type="text/css" rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css"/> <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<script type="text/javascript">
+function requestWeather() {                        <!--requestWeather() function for when the user presses the button referenced in the body -->
+	if(navigator.geolocation){					   <!--getting the location of the user -->
+		navigator.geolocation.getCurrentPosition(function(position){
+			var lat = position.coords.latitude;								<!-- device's latitude-->
+			var lon = position.coords.longitude;							<!-- device's longitude-->
+			var id = $("#id").val();										<!-- referencing the client id of the user-->
+			var key = $("#key").val();										<!-- referencing the secret key of the user-->
+			var URL = "https://api.aerisapi.com/forecasts/"+lat+","+lon+"?client_id="+id+"&client_secret="+key; 		<!-- location of the URL for the id and the key-->
+		$.ajax({
+			type: "GET",
+			url : URL,
+			dataType : "jsonp",
+			success : function(msg){					<!-- function that is called when the ajax request is a success -->
+				var json = msg;							<!-- assigning the json data from the call a variable-->
+				var str = JSON.stringify(json, null, 2)		<!--for debugging purposes-->
+                console.log(str)
+				var row1 = table.insertRow(0);				<!--inserting the first row of the table for the headings-->
+				var cell_1 = row1.insertCell(0);			<!--creating cells for the row-->
+				var cell_2 = row1.insertCell(1);
+				var cell_3 = row1.insertCell(2);
+				var cell_4 = row1.insertCell(3);
+				var cell_5 = row1.insertCell(4);
+				cell_1.innerHTML = "Date";
+				cell_2.innerHTML = "Max Temp F";
+				cell_3.innerHTML = "Min Temp F";
+				cell_4.innerHTML = "Avg Temp F";
+				cell_5.innerHTML = "Description";
+				for(i = 0; i < 7; i++){						<!--creating a for loop to make rows and cells for the data-->
+					var row = table.insertRow(i+1);
+					var cell_1 = row.insertCell(0);
+					var cell_2 = row.insertCell(1);
+					var cell_3 = row.insertCell(2);
+					var cell_4 = row.insertCell(3);
+					var cell_5 = row.insertCell(4);
+					var date = json.response[0].periods[i].validTime			<!--using json response to get the date -->
+					cell_1.innerHTML = date
+					cell_2.innerHTML = json.response[0].periods[i].maxTempF;	<!--using json response to get the max temperature in F -->
+					cell_3.innerHTML = json.response[0].periods[i].minTempF;	<!--using json response to get the min temperature in F -->
+					cell_4.innerHTML = json.response[0].periods[i].avgTempF;	<!--using json response to get the avg temperature in F -->
+					cell_5.innerHTML = json.response[0].periods[i].weather;		<!--using json response to get a description of the weather -->
+				
+				}
+				
+				
+			
+			}
+				
+		});
+		});
+	}
+
+}
+
+</script>
+</head>
+
+<body>
+<input type=text id="id" placeholder="Client ID"/>		<!--textbox for client id-->
+<input type=text id="key" placeholder="Secret Key"/>	<!--textbox for secret key-->
+<input type=button onclick="requestWeather()" value="Get Weather!"/>	<!--button that user clicks to send request to server-->
+<div id=current></div>
+<div id="empty_div">																<!--div where the table shows up-->
+<table data-role="table" class="ui-responsive" id='table' border="2"> </table>
+</div>
+</body>
+
+</html>

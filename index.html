@@ -1,0 +1,77 @@
+<html>
+<head>
+<div data-role="header" data-position="fixed"> <!-- header -->
+	<h1>Homework 5</h1>
+</div>
+<div data-role="footer" data-position="fixed"> <!-- footer -->
+	<h1>CS-275</h1>
+</div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> <script src="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"> </script>
+<link type="text/css" rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css"/>
+<script type="text/javascript"> 
+function displayTable() {								<!-- function that displays the table options for the user along with button in the empty div -->
+	var URL = "http://localhost:8080/displayTable";
+	$.ajax({
+		type: 'GET',
+		url: URL,
+		data: {},
+		dataType: 'html',
+		success: function(msg){
+			$('#empty').html(msg);
+		},
+	});
+}
+function getTable(){									<!-- function that displays the actual table that the user chooses in the div called output -->
+	var URL = "http://localhost:8080/getTable";
+	var opt = $("#option").val();
+	$.ajax({
+		type: 'GET',
+		url: URL,
+		data: {'opt': opt},
+		dataType: 'html',
+		success: function(msg){
+			$('#output').html(msg);
+		},
+	})
+}
+
+function displayTranscript(){							<!-- functon that displays the transcript options for the user along with button in the empty div -->
+	var URL = "http://localhost:8080/displayTranscript";
+	$.ajax({
+		type: 'GET',
+		url: URL,
+		data: {},
+		dataType: 'html',
+		success: function(msg){
+			$('#empty').html(msg);
+		},
+	});
+}
+function getTranscript(){								<!-- function that displays the actual transcript based on what the user chooses in the div called output -->
+	var URL = "http://localhost:8080/getTranscript";
+	var s_opt = $("#s_opt").val(); 
+	var t_opt = $("#t_opt").val();
+
+	$.ajax({
+		type: 'GET',
+		url: URL,
+		data: {'s_opt': s_opt, 't_opt': t_opt},
+		dataType: 'html',
+		success: function(msg){
+			$('#output').html(msg);
+		},
+	})
+}
+</script>
+</head>
+<body>
+<title>CS275 Homework 5</title>
+
+</body>
+<div class="options">																	<!-- options that user has when the webpage opens -->
+	<a class="bar" onclick="displayTable()" href="#">Display a Table</a>				<!-- display table button -->
+	<a class="bar" onclick="displayTranscript()" href="#">Student Transcript Search</a>	<!-- display transcript button --> 
+</div>
+<div id="empty"></div>
+
+</html>

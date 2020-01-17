@@ -1,0 +1,46 @@
+<html>
+<head>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> <script src="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"> </script>
+<link type="text/css" rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css"/> <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!--JS code including the ajax call-->
+<script type = "text/javascript">
+function getIt(){
+	var n = $("#id").val();  <!-- refers to the number enter by the user in the textbox -->
+	console.log(n);				
+	var fact_or_sum = $("#option").val();  			<!--refers to the dropdown menu mentioned in the body of the html-->
+	var URL = "http://localhost:8080/"+fact_or_sum;	<!--URL including the localhost front end along with a reference to the option chosen by the user -->
+	console.log(URL);
+	 $.ajax({					<!-- ajax function-->
+		type: "GET",			
+	 	url: URL,
+	 	data: {"n":n},			<!--data is the number user provides-->
+		dataType: "html",		
+	 	success: function(msg){
+	 		$("#content").html(msg);	<!--the function will output the result in the empty div called content-->
+	 	},
+	 	error: function(){
+	 		alert("Error");
+	 	}
+	 }
+	 );
+}
+
+</script>
+
+<title>CS 275 Homework 3</title>
+</head>
+
+<body>
+<input type=text id="id" placeholder="Enter Number"/>	<!-- textbox where user enters the number-->
+<select id="option">									<!-- dropdown menu-->
+<option value="fact">Factorial</option>					<!-- factorial option-->
+<option value="summation">Summation</option>			<!-- summation option-->
+</select>
+<input onclick="getIt()" type="button" value="Calculate!"/>	<!--button for the user to click-->
+<div id="content"> 										<!-- empty div where the result will be displayed-->
+
+</div>
+</body>
+</html>
